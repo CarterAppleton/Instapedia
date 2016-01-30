@@ -98,7 +98,7 @@ app.get('/search', function(req, res){
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
 					console.log(result[i])
-			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\"></a>  ";
+			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>       ";
 				}
 			}
 
