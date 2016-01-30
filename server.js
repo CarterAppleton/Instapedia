@@ -60,16 +60,43 @@ app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
 app.get('/', function(req, res){
-	ig.tag_media_recent('monsterjam', function(err, result, pagination, remaining, limit) {
-			console.log(err);
-			console.log(result);
-			console.log(pagination);
-			console.log(remaining);
-			console.log(limit);
-			res.render('index', {data: result})
+
+	// used for searching
+	var tags = ["hike", "city", "europe", "history", "mountain", "beach", "sun", "sea", "family"] 
+
+	ig.tag_media_recent('hiking', function(err, result, pagination, remaining, limit) {
+			console.log(result); //for debugging purposes
+
+			// Creates the tags search bar area
+			tags_html = '<ul id=\"tags\">'
+			for (i = 0; i < tags.length; i++) { 
+		  	tags_html += "<li id=\"" + tags[i] + "\" class='tags_link'>" + tags[i] + "</li>";
+			}
+			tags_html += "</ul>"
+
+			text = ''
+			if (result != undefined) {
+				for (i = 0; i < result.length; i++) { 
+					console.log(result[i])
+			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\">   ";
+				}
+			}
+
+			res.render('index', {data: text, tags: tags_html})
 	});
 });
 
+
+
+// Calls to get stuff back from expedia
+app.get('/getflightinfo', function(req, res){
+	var lat = encodeURI(req.query.lat)
+	var long = encodeURI(req.query.long)
+	
+	res.json()
+})
+
+// Crap we need to get the website approved by insta
 app.get('/privacy', function(req, res){
 	res.render('privacy')
 })

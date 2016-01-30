@@ -78,3 +78,11 @@ overflow:hidden; 	background-color:black; z-index: -99;
     opacity:0;
     z-index:2;
 }
+
+ul#tags li {
+    display:inline;
+}
+
+li.tags_link {
+	padding: 1%;
+}
