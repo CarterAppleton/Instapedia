@@ -70,6 +70,9 @@ app.get('/', function(req, res){
 app.get('/privacy', function(req, res){
 	res.render('privacy')
 })
+app.get('/video', function(req, res){
+	res.render('video')
+})
 
 // Set the views directory
 app.set('views', __dirname + '/views');
