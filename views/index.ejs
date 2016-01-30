@@ -1,5 +1,70 @@
-Oh herro
-
-<%- data %>
-
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xml:lang="en"
+xmlns:og="http://ogp.me/ns#"
+xmlns:fb="https://www.facebook.com/2008/fbml"
+lang="en">
+<head>
+	
+	<!-- WINDOW TITLE -->
+	<title>Test</title>
+	
+	<% include ../views/partials/headPartial %>
+	
+</head>
+<body>
+	
+	<div class="TEST_RESPONSE_DIV" style="display:none;height:200px;">
+	</div>
+	
+	<!-- NAV -->
+	<div class="container-fluid" style="padding:0px;margin:0px;">
+		<div class="ip-header-container" style="padding:0px;margin:0px;">
+			<div id="carousel" class="carousel container slide" style="padding:0px;margin:0px;">
+				<div class="carousel-inner">
+				        <div class="active item one" style="background-image: url('imgs/test1.jpg');"></div>
+				        <div class="item two" style="background-image: url('imgs/test2.jpg');"></div>
+				        <div class="item three" style="background-image: url('imgs/test3.jpg');"></div>
+				</div>
+			</div>
+			<div class="ip-header">	
+			<div style="padding-left:100px;padding-right:100px;">
+				<div class="row ip-title">
+					Find your next adventure
+				</div>
+				<div class="row ip-tagline">
+					Explore the world through the eyes of fellow explorers: travel to collect moments, not things.
+				</div>
+			</div>
+			</div>	
+		</div>
+	</div>
+	
+	<div class="ip-navbar">
+		<div class="dropdown">
+			<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Filter </a>
+		  <div class="dropdown-menu ip-filter-drop-down">
+			  <div class="container">
+				  <div class="row">
+					  <div class="">
+				  </div>
+				  <div class="row">
+				  </div>
+			  </div>
+		  </div>
+		</div>
+	</div>
+	
+	<div style="width:100%;height:100px;background-color:purple">
+	</div>
+	
+	<!-- COVER -->
+	
+	<!-- OPTIONS -->
+</body>
+<script>
+$(document).ready(function() {
+  $('.carousel').carousel({interval: 9000});
+});
+</script>
+</html>
