@@ -58,11 +58,13 @@ lang="en">
 	
 	<div id = "tags_bar" style="width:100%;height:100px;">
 		<%- tags_html %>
-		<div id = "" style="width:50%;">
-
+		<div id = "tag_header" style="width:50%;">
 		</div>
 	</div>
 
+	<div id = "searchResults" style="width:100%;height:400px;">
+
+	</div>
 
 	
 	<!-- COVER -->
@@ -74,7 +76,17 @@ lang="en">
 	  $('.carousel').carousel({interval: 9000});
 	});
 
-	
+   $(".tags_link").click(function(){ 
+   	var tag_name = $(this).text()
+   	console.log(tag_name)    
+
+		$.get( "/search?tag=" + tag_name, function( data ) {
+			console.log(data);
+		 $( "#tag_header" ).html("#" + tag_name);
+		 $( "#searchResults" ).html( data );
+		});
+  	return false;    
+	});
 
 				// var output = ""
 				// if(data.length != 0) {
