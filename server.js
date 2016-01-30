@@ -6,6 +6,7 @@ var express = require('express'),
 var app = express();
 
 var ig = require('instagram-node').instagram();
+var eAPI = require('./expedia-api.js');
 
 ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
          client_secret: 'c1e75801a1ad41f3b568a8f195121abe' });
