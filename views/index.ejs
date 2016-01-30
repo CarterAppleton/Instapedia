@@ -62,7 +62,7 @@ lang="en">
 		</div>
 	</div>
 
-	<div id = "searchResults" style="width:100%;height:400px;">
+	<div id = "searchResults" style="width:100%;height:400px;text-align:center;">
 
 	</div>
 
@@ -82,8 +82,8 @@ lang="en">
 
 		$.get( "/search?tag=" + tag_name, function( data ) {
 			console.log(data);
-		 $( "#tag_header" ).html("#" + tag_name);
-		 $( "#searchResults" ).html( data );
+		 $( "#tag_header" ).prepend("#" + tag_name + " ");
+		 $( "#searchResults" ).prepend( data );
 		});
   	return false;    
 	});
