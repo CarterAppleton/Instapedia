@@ -78,7 +78,7 @@ app.get('/', function(req, res){
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
 					console.log(result[i])
-			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\">   ";
+			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\"></a>";
 				}
 			}
 
@@ -92,7 +92,7 @@ app.get('/', function(req, res){
 app.get('/getflightinfo', function(req, res){
 	var lat = encodeURI(req.query.lat)
 	var long = encodeURI(req.query.long)
-	
+
 	res.json()
 })
 
