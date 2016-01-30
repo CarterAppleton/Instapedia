@@ -57,11 +57,19 @@ app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
 app.get('/', function(req, res){
-	ig.tag_search('hiking', function(err, result, remaining, limit) {
+	ig.tag_media_recent('hiking', function(err, result, pagination, remaining, limit) {
 			console.log(err);
+			console.log(result);
+			console.log(pagination);
+			console.log(remaining);
+			console.log(limit);
 			res.render('index', {data: result})
 	});
 });
+
+app.get('/privacy', function(req, res){
+	res.render('privacy')
+})
 
 // Set the views directory
 app.set('views', __dirname + '/views');
