@@ -6,20 +6,23 @@ var express = require('express'),
 var app = express();
 
 var ig = require('instagram-node').instagram();
- 
-// Every call to `ig.use()` overrides the `client_id/client_secret` 
-// or `access_token` previously entered if they exist. 
-// ig.use({ access_token: '4850119.f5f94de.0b3efb249fd548ecb0a4a4d04c6f12b7' }); 
+
 ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
          client_secret: 'c1e75801a1ad41f3b568a8f195121abe' });
 
 var redirect_uri = 'http://expediahackathon.azurewebsites.net/handleauth';
 
 exports.authorize_user = function(req, res) {
+	ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
+         client_secret: 'c1e75801a1ad41f3b568a8f195121abe' });
+
   res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'public_content'], state: 'a state' }));
 };
 
 exports.authorize_user_local = function(req, res) {
+	ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
+         client_secret: 'c1e75801a1ad41f3b568a8f195121abe' });
+
   res.redirect(ig.get_authorization_url('http://127.0.0.1:50000/handleauth_local', { scope: ['likes', 'public_content'], state: 'a state' }));
 };
  
@@ -57,7 +60,7 @@ app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
 app.get('/', function(req, res){
-	ig.user_media_recent('kevin521', function(err, result, pagination, remaining, limit) {
+	ig.tag_media_recent('monsterjam', function(err, result, pagination, remaining, limit) {
 			console.log(err);
 			console.log(result);
 			console.log(pagination);
