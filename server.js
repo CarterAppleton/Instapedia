@@ -57,7 +57,7 @@ app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
 app.get('/', function(req, res){
-	ig.tag_media_recent('hiking', function(err, result, pagination, remaining, limit) {
+	ig.user_media_recent('kevin521', function(err, result, pagination, remaining, limit) {
 			console.log(err);
 			console.log(result);
 			console.log(pagination);
