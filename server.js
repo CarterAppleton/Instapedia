@@ -47,30 +47,30 @@ exports.handleauth_local = function(req, res) {
     } else {
       console.log('Yay! Access token is ' + result.access_token);
       ig.use({access_token: result.access_token})
-      res.redirect('/');
+      res.redirect('/home');
     }
   });
 };
 
-// This is where you would initially send users to authorize 
+// TODO: flip these get calls
 app.get('/authorize', exports.authorize_user);
-app.get('/authorize_local', exports.authorize_user_local);
+app.get('/', exports.authorize_user_local);
 // This is your redirect URI 
 app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
-app.get('/', function(req, res){
+app.get('/home', function(req, res){
 
 	// used for searching
 	var tags = ["hike", "city", "europe", "history", "mountain", "beach", "sun", "sea", "family"] 
 
-	ig.tag_media_recent('hiking', function(err, result, pagination, remaining, limit) {
+	ig.tag_media_recent('history', function(err, result, pagination, remaining, limit) {
 			console.log(result); //for debugging purposes
 
 			// Creates the tags search bar area
 			tags_html = '<ul id=\"tags\">'
 			for (i = 0; i < tags.length; i++) { 
-		  	tags_html += "<li id=\"" + tags[i] + "\" class='tags_link'>" + tags[i] + "</li>";
+		  	tags_html += "<li id=\"" + tags[i] + "\" class='tags_link'><a href=\"/addToSearch?tag=" + tags[i] + "\">" + tags[i] + "</a></li>";
 			}
 			tags_html += "</ul>"
 
@@ -78,7 +78,7 @@ app.get('/', function(req, res){
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
 					console.log(result[i])
-			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\"></a>";
+			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\"></a>  ";
 				}
 			}
 
