@@ -30,10 +30,8 @@ exports.authorize_user_local = function(req, res) {
 exports.handleauth = function(req, res) {
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {
     if (err) {
-      console.log("fuck:" + err);
       res.send("Didn't work");
     } else {
-      console.log('Yay! Access token is ' + result.access_token);
       ig.use({access_token: result.access_token})
       res.redirect('/');
     }
@@ -43,10 +41,8 @@ exports.handleauth = function(req, res) {
 exports.handleauth_local = function(req, res) {
   ig.authorize_user(req.query.code, 'http://127.0.0.1:50000/handleauth_local', function(err, result) {
     if (err) {
-      console.log("fuck:" + err);
       res.send("Didn't work");
     } else {
-      console.log('Yay! Access token is ' + result.access_token);
       ig.use({access_token: result.access_token})
       res.redirect('/');
     }
@@ -66,7 +62,6 @@ app.get('/', function(req, res){
 	var tags = ["hike", "city", "europe", "history", "mountain", "beach", "sun", "sea", "family"] 
 
 	ig.tag_media_recent('hiking', function(err, result, pagination, remaining, limit) {
-			console.log(result); //for debugging purposes
 
 			// Creates the tags search bar area
 			tags_html = '<ul id=\"tags\">'
@@ -78,7 +73,6 @@ app.get('/', function(req, res){
 			text = ''
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
-					console.log(result[i])
 			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"150\" width=\"150\"></a>";
 				}
 			}
@@ -94,7 +88,9 @@ app.get('/getflightinfo', function(req, res){
 	var lat = encodeURI(req.query.lat)
 	var long = encodeURI(req.query.long)
 
-	res.json()
+	eAPI.getPrice(lat, long, function(result) {
+		res.json(result);
+	})
 })
 
 // Crap we need to get the website approved by insta

@@ -111,7 +111,9 @@ app.get('/getflightinfo', function(req, res){
 	var lat = encodeURI(req.query.lat)
 	var long = encodeURI(req.query.long)
 
-	res.json()
+	eAPI.getPrice(lat, long, function(result) {
+    res.json(result);
+  })
 })
 
 // Crap we need to get the website approved by insta
