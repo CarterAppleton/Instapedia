@@ -16,15 +16,28 @@ ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
 var redirect_uri = 'http://expediahackathon.azurewebsites.net/handleauth';
 
 exports.authorize_user = function(req, res) {
-  res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes'], state: 'a state' }));
+  res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'public_content'], state: 'a state' }));
 };
 
 exports.authorize_user_local = function(req, res) {
-  res.redirect(ig.get_authorization_url('http://127.0.0.1:50000/handleauth', { scope: ['likes'], state: 'a state' }));
+  res.redirect(ig.get_authorization_url('http://127.0.0.1:50000/handleauth_local', { scope: ['likes', 'public_content'], state: 'a state' }));
 };
  
 exports.handleauth = function(req, res) {
   ig.authorize_user(req.query.code, redirect_uri, function(err, result) {
+    if (err) {
+      console.log("fuck:" + err);
+      res.send("Didn't work");
+    } else {
+      console.log('Yay! Access token is ' + result.access_token);
+      ig.use({access_token: result.access_token})
+      res.redirect('/');
+    }
+  });
+};
+
+exports.handleauth_local = function(req, res) {
+  ig.authorize_user(req.query.code, 'http://127.0.0.1:50000/handleauth_local', function(err, result) {
     if (err) {
       console.log("fuck:" + err);
       res.send("Didn't work");
@@ -41,6 +54,7 @@ app.get('/authorize', exports.authorize_user);
 app.get('/authorize_local', exports.authorize_user_local);
 // This is your redirect URI 
 app.get('/handleauth', exports.handleauth);
+app.get('/handleauth_local', exports.handleauth_local);
 
 app.get('/', function(req, res){
 	ig.tag_search('hiking', function(err, result, remaining, limit) {
