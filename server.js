@@ -17,7 +17,7 @@ exports.authorize_user = function(req, res) {
 	ig.use({ client_id: 'f5f94de0bf0b48569685b79d4e615332',
          client_secret: 'c1e75801a1ad41f3b568a8f195121abe' });
 
-  res.redirect(ig.get_authorization_url(redirect_uri, { scope: ['likes', 'public_content'], state: 'a state' }));
+  res.redirect(ig.get_authorization_url('http://expediahackathon.azurewebsites.net/handleauth', { scope: ['likes', 'public_content'], state: 'a state' }));
 };
 
 exports.authorize_user_local = function(req, res) {
