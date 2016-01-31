@@ -18,39 +18,38 @@ lang="en">
 		
 	</div>
 
-	<div id="description">
 
-	</div>
 		
 	<div class="container-fluid" style="padding:0px;margin:0px;">
 		<div class="ip-header-container" style="padding:0px;margin:0px;
 
-    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%- JSON.parse(ig_data).images.standard_resolution.url %>');
-	background-repeat: no-repeat;
-	background-position: center;
+		background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%- JSON.parse(ig_data).images.standard_resolution.url %>');
+		background-repeat: no-repeat;
+		background-position: center;
 		background-size: 100% auto;
-	">
-			<div class="back" style="padding-top:180px;font-size:50px;text-align:center;text-shadow: 0px 0px 10px rgba(0,0,0,0.85);">
-				<div class="row ip-title">
-					<%- JSON.parse(ig_data).location.name %>
-				</div>
-				<div class="row ip-tagline">
-					<% var tags = JSON.parse(ig_data).tags; %>
-					<% for(var i in tags) {  %>
-						#<%-tags[i]  %>
+		">
+		<div class="back" style="padding-top:180px;font-size:50px;text-align:center;text-shadow: 0px 0px 10px rgba(0,0,0,0.85);">
+			<div class="row ip-title">
+				<%- JSON.parse(ig_data).location.name %>
+			</div>
+			<div class="row ip-tagline">
+				<% var tags = JSON.parse(ig_data).tags; %>
+				<% for(var i in tags) {  %>
+					#<%-tags[i]  %>
 					<% } %>
 				</div>
 			</div>
 		</div>
 	</div>
 	
+	<div class="container-fluid" style="padding:0px;margin:0px;">
+		<div class="container">
+			<div id="description" class="col-xs-12 col-sm-6 col-md-8 col-lg-8" style="">
 
-	<div id = "tags_bar" style="width:100%;height:100px;">
+			</div>
+		</div>
 	</div>
 
-	<div id = "searchResults" style="width:100%;height:400px;text-align:center;">
-
-	</div>
 
 	
 	<!-- COVER -->		  
@@ -59,27 +58,39 @@ lang="en">
 </body>
 <script>
 
-	$(document).ready(function() {
-		$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
-			if (result == null) {
-				console.log("Error: Flight info is null");
-				return;
-			}
-			$( "#expedia" ).prepend(JSON.stringify(result));
-		});
+$(document).ready(function() {
+	$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+		if (result == null) {
+			console.log("Error: Flight info is null");
+			return;
+		}
+		$( "#expedia" ).prepend(JSON.stringify(result));
 	});
+});
 
 
-	$(document).ready(function() {
-			$.get( "/wikipedia?searchterm=" + '<%- JSON.parse(ig_data).location.name %>' , function( result ) {
-			if (result == null) {
-				console.log("ASDasdasdasd")
+
+$(document).ready(function() {
+	var loc = '<%- JSON.parse(ig_data).location.name %>';
+	var possibilities = loc.split(/[,-]+/);
+	var possiblity = 0;
+	//var s = loc.split(/[,-]+/)[0];
+	//possibilities[possiblity]
+	function searchWikipedia() {
+		$.get( "/wikipedia?searchterm=" + possibilities[possiblity] , function( result ) {
+			console.log("searched: " + possibilities[possiblity]);
+			if (result == null || result == "" || result.indexOf("may refer to:\n") > -1 || result.indexOf("is the name of several places in the world including") > -1) {
+				possiblity++;
+				if(possiblity < possibilities.length) { searchWikipedia() };
 				return;
 			}
-			console.log(result)
-			$( "#description" ).prepend(result);
+			console.log(possibilities[possiblity]);
+			// do not fear the regex but also do not touch it
+			$( "#description" ).prepend('<p>' + result.replace(/ *\([^)]*\) */g,'').replace(/(?:\r\n|\r|\n)/g, '</p><p>') + '</p>');
 		});
-	});
+	} 
+	searchWikipedia();
+});
 
 
 
