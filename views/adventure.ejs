@@ -61,20 +61,19 @@ lang="en">
 	  <div class="row">
 		  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="instagram">
 			  <img src='<%- JSON.parse(ig_data).images.standard_resolution.url %>'/>
+			  <div id='adventure_name'><%- JSON.parse(ig_data).location.name %></div>
 		  </div>
 		  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="description">
 			  Mountains
 		  </div>
 		  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="expedia">
-			  Mountains
+			  
 		  </div>
 	  </div>
   </div>
 
 	<div id = "tags_bar" style="width:100%;height:100px;">
 	</div>
-
-	<%- ig_data %>
 
 	<div id = "searchResults" style="width:100%;height:400px;text-align:center;">
 
@@ -86,6 +85,17 @@ lang="en">
 	<!-- OPTIONS -->
 </body>
 <script>
+
+	$(document).ready(function() {
+		$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+			if (result == null) {
+				console.log("ASDasdasdasd")
+				return;
+			}
+			console.log(result)
+			$( "#expedia" ).prepend(result);
+		});
+	});
 
 
 </script>

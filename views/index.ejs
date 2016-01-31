@@ -57,50 +57,32 @@ lang="en">
 
 </body>
 <script>
-$(document).ready(function() {
-	$('.carousel').carousel({interval: 9000});
-});
+	$(document).ready(function() {
+		$('.carousel').carousel({interval: 9000});
+	});
 
-var selectedTags = {};
-$(".tag-item").click(function(){ 	
-	var tag_name = $(this).text().replace(/ /g,'');
-	if(selectedTags[tag_name] == null) {
-		selectedTags[tag_name] = {};
-		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "blue";
-		$.get( "/search?tag=" + tag_name, function( result ) {
-			if (result == null) {
-				return;
-			}
-			for (i = 0; i < result.length; i++) {
-				div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
-				$( "#searchResults" ).prepend( div );
-			}
-		});
-	} else {
-		$('.ip-location-item-' + tag_name).remove();
-		selectedTags[tag_name] = null;
-		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#DDD";		
-	}
+	var selectedTags = {};
+	$(".tag-item").click(function(){ 	
+		var tag_name = $(this).text().replace(/ /g,'');
+		if(selectedTags[tag_name] == null) {
+			selectedTags[tag_name] = {};
+			document.getElementById("tag-item-"+tag_name).style.backgroundColor = "blue";
+			$.get( "/search?tag=" + tag_name, function( result ) {
+				if (result == null) {
+					return;
+				}
+				for (i = 0; i < result.length; i++) {
+					div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
+					$( "#searchResults" ).prepend( div );
+				}
+			});
+		} else {
+			$('.ip-location-item-' + tag_name).remove();
+			selectedTags[tag_name] = null;
+			document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#DDD";		
+		}
 
-	return false;    
-});
-
-// var output = ""
-// if(data.length != 0) {
-	// 	// Parses the JSON response and spits it out in human readable text
-	// 	//<img class="" src="//iscale.iheart.com/catalog/live/3401?ops=fit(60%2C60)" srcset="//iscale.iheart.com/catalog/live/3401?ops=fit(120%2C120) 2x" alt="Radio 1045" itemprop="" style="opacity: 1;" data-reactid=".0.1.1.1.0:$Stations.1.$3401.0.$logo">
-	// 	var stations = data
-	// 	output = "<div id='section_title'>Search Results: " + term + "</div><ul class='rig columns-3'>"
-	// 	for(var i=0;i<stations.length;i++){
-		// 		output += "<li class='center'><a href = '/connect?station_id=" + stations[i].id + "&station_name=" + stations[i].name + "'><img id='' src='http://radioedit.iheart.com/service/img/nop()/assets/images/" + stations[i].id + ".png' onerror='imgError(this);'><p id='station_name'>" + stations[i].name + "</p><p id=''>" + stations[i].description + "</p></a></li>"
-		// 	}
-		// }
-		// else {
-			// 	output = "I'm sorry, there are no results for what you searched. Try again?"
-			// }
-
-
-			// output += "</ul>"
-			// $("#results").html(output);
-			</script>
-			</html>
+		return false;    
+	});
+</script>
+</html>
