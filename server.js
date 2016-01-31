@@ -55,13 +55,13 @@ exports.handleauth_local = function(req, res) {
 
 // TODO: flip these get calls
 app.get('/authorize', exports.authorize_user);
-app.get('/', exports.authorize_user_local);
+app.get('/authorize_local', exports.authorize_user_local);
 // This is your redirect URI 
 app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
-app.get('/home', function(req, res){
-
+app.get('/', function(req, res){
+	exports.authorize_user_local
 	// used for searching
 	var tags = ["hike", "city", "europe", "history", "mountain", "beach", "sun", "sea", "family", "skiing"] 
 
@@ -98,12 +98,18 @@ app.get('/search', function(req, res){
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
 					console.log(result[i])
-			  	text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>       ";
+			  	text += "<a href =\"/adventure?id=" + result[i].id + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>       ";
 				}
 			}
 
 			res.send(text)
 	});
+})
+
+//Call to get to info page for each pic
+app.get('/adventure', function(req, res){
+	var pic_id = encodeURI(req.query.id)
+
 })
 
 // Calls to get stuff back from expedia
