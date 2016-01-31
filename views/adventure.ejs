@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xml:lang="en"
+xmlns:og="http://ogp.me/ns#"
+xmlns:fb="https://www.facebook.com/2008/fbml"
+lang="en">
+<head>
+	
+	<!-- WINDOW TITLE -->
+	<title>Instapedia</title>
+	
+	<% include ../views/partials/headPartial %>
+	
+</head>
+<body>
+	
+	<div class="ip-navbar">
+		<div class="dropdown">
+			<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Filter </a>
+		  <div class="dropdown-menu ip-filter-drop-down">
+			  <div class="container">
+				  <div class="row">
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 ip-filter-item">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+				  </div>
+				  <div class="row">
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+				  </div>
+				  <div class="row">
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+					  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						  Mountains
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+		</div>
+	</div>
+	
+	<div class="container" style="width:100%;">
+	  <div class="row">
+		  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="instagram">
+			  <img src='<%- JSON.parse(ig_data).images.standard_resolution.url %>'/>
+			  <div id='adventure_name'><%- JSON.parse(ig_data).location.name %></div>
+		  </div>
+		  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="description">
+			  Mountains
+		  </div>
+		  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" id="expedia">
+			  
+		  </div>
+	  </div>
+  </div>
+
+	<div id = "tags_bar" style="width:100%;height:100px;">
+	</div>
+
+	<div id = "searchResults" style="width:100%;height:400px;text-align:center;">
+
+	</div>
+
+	
+	<!-- COVER -->
+	
+	<!-- OPTIONS -->
+</body>
+<script>
+
+	$(document).ready(function() {
+		$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+			if (result == null) {
+				console.log("ASDasdasdasd")
+				return;
+			}
+			console.log(result)
+			$( "#expedia" ).prepend(result);
+		});
+	});
+
+
+</script>
+</html>

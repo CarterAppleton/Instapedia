@@ -102,6 +102,10 @@ app.get('/search', function(req, res){
 //Call to get to info page for each pic
 app.get('/adventure', function(req, res){
 	var pic_id = encodeURI(req.query.id)
+	ig.media(pic_id, function(err, media, remaining, limit) {
+		// console.log(media);
+		res.render('adventure', {ig_data: JSON.stringify(media)})
+	});
 
 })
 

@@ -3,40 +3,129 @@ var request = require('request');
 
 var home_airport = 'SEA';
 
+var dDepartureDate = '2016-02-17';
+var dReturnDate = '2016-02-22'
+
 var home_lat = 0;
 var home_long = 0;
+
+var debug = false;
+var printResponses = true;
 
 
 module.exports = {
 	getPrice: function getPrice(lat, long, callback) {
-		var destAirport = 'blah';
-		// closestAirport(lat, long, function(response) {
-		// 	callback(response);
-		// });
+		closestAirport(lat, long, function(destAirport) {
+			getRegion(lat, long, function(regionID) {
+				getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, function(response) {
+					callback(response);
+				});
+			});
+		});
 		// getCheapestFlightPrice(home_airport, 'LAX', function(response) {
 		// 	callback(response);
 		// });
-		getRegion(lat, long, function(response) {
-			callback(response);
-		});
-
+		// getRegion(lat, long, function(response) {
+		// 	callback(response);
+		// });
+		// getPackageDeal('2016-02-12', home_airport, 'CDG', '2016-02-15', 8068, function(response) {
+		// 	callback(response);
+		// });
 	}
 }
 
-function getPackageDeal(departureDate, origin, destination, returnDate, regionID) {
+function getPackageDeal(departureDate, origin, destination, returnDate, regionID, callback) {
+	var URL = 'http://terminal2.expedia.com/x/packages?adults=1&departureDate='+departureDate+'&originAirport='+origin+'&destinationAirport='+destination+'&returnDate='+returnDate+'&regionid='+regionID+'&limit=5&apikey='+API_key;
+	request(URL, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			try {
+				var detailsURL = info.PackageSearchResultList.PackageSearchResult[0].DetailsUrl;
+				var price = info.PackageSearchResultList.PackageSearchResult[0].PackagePrice.TotalPrice.Value;
 
+				callback('$'+price+': '+detailsURL);
+			}
+			catch(e) {
+				callback(JSON.parse(body));
+			}
+		}
+	})
 }
 
 function getRegion(lat, long, callback) {
-	var URL = 'http://terminal2.expedia.com/x/suggestions/regions?within=5km&lng=-122.453269&lat=37.777363&apikey=y4ZGijrmunTjx7wcVN5Xb8EVxT3GuVG1';
+	var URL = 'http://terminal2.expedia.com/x/geo/features?within=5km&type=city&lat='+lat+'&lng='+long+'&apikey='+API_key;
+	print('lat: '+lat+'long: '+long);
 	request(URL, function(error, response, body) {
-		if (!error && response.statuscode == 200) {
-			callback(body);
+		if (!error && response.statusCode == 200) {
+			if (debug) {
+				callback(JSON.parse(body));
+			}
+			
+			var info = JSON.parse(body);
+
+			if (!debug) {
+				callback(info[0].id);
+			}
 		}
 		else {
 			print('getRegion failed: '+error);
 		}
-	});
+	})
+}
+
+function closestAirport(lat, long, callback) {
+	request('http://terminal2.expedia.com/x/geo/features?within=100km&lat='+lat+'&lng='+long+'&type=airport&verbose=3&apikey='+API_key, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+	  		var info = JSON.parse(body);
+	  		
+	  		if (debug) {
+	  			callback(info);
+	  		}
+
+	  		var closest = "no closest airport";
+
+		  	for (var i = 0; i < info.length; i++) {
+				var item = info[i];
+			  	if(item.hasOwnProperty('tags')) {
+			  		if (!isMajorAirport(item)) {
+			  			continue;
+			  		}
+			  		if(item.tags.hasOwnProperty('iata')) {
+			  			if(item.tags.iata.hasOwnProperty('airportCode')) {
+			  				if (item.tags.iata.airportCode.hasOwnProperty('value')) {
+			  					print(item.tags.iata.airportCode.value);
+			  					closest = item.tags.iata.airportCode.value;
+			  					break;
+			  				}
+			  			}
+			  		}
+			  	}
+			};
+
+			destAirport = closest;
+			
+			if (!debug) {
+				callback(closest);
+			}
+	  	}
+	  	else {
+	  		print("closestAirport broke: "+error);
+	  	}
+	})
+}
+
+function isMajorAirport(item) {
+	try {
+		if (item.tags.common.majorAirport.value == 0) {
+			print('majorAirport = 0; WHATTTT???')
+			return false;
+		}
+	}
+	catch(e) {
+		print('minor airport');
+		return false;
+	}
+	return true;
 }
 
 function getCheapestFlightPrice(origin, destination, callback) {
@@ -82,61 +171,12 @@ function getCheapestFlightPrice(origin, destination, callback) {
 
 	request(options, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
-			print(body);
-			callback(body);
+			callback(JSON.parse(body));
 		}
 		else {
 			print(error);
 		}
 	});
-	// callback('herro');
-}
-
-function closestAirport(lat, long, callback) {
-	request('http://terminal2.expedia.com/x/geo/features?within=100km&lat='+lat+'&lng='+long+'&type=airport&verbose=3&apikey='+API_key, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-	  		var info = JSON.parse(body);
-	  		var closest = "no closest airport";
-
-		  	for (var i = 0; i < info.length; i++) {
-				var item = info[i];
-			  	if(item.hasOwnProperty('tags')) {
-			  		if (!isMajorAirport(item)) {
-			  			continue;
-			  		}
-			  		if(item.tags.hasOwnProperty('iata')) {
-			  			if(item.tags.iata.hasOwnProperty('airportCode')) {
-			  				if (item.tags.iata.airportCode.hasOwnProperty('value')) {
-			  					print(item.tags.iata.airportCode.value);
-			  					closest = item.tags.iata.airportCode.value;
-			  					break;
-			  				}
-			  			}
-			  		}
-			  	}
-			};
-
-			destAirport = closest;
-			callback(closest);
-	  	}
-	  	else {
-	  		print("closestAirport broke");
-	  	}
-	})
-}
-
-function isMajorAirport(item) {
-	try {
-		if (item.tags.common.majorAirport.value == 0) {
-			print('majorAirport = 0; WHATTTT???')
-			return false;
-		}
-	}
-	catch(e) {
-		print('minor airport');
-		return false;
-	}
-	return true;
 }
 
 function print(stuff) {

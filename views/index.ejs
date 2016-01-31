@@ -81,7 +81,7 @@ $(".tag-item").click(function(){
 				return;
 			}
 			for (i = 0; i < result.length; i++) {
-				div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
+				div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
 				$( "#searchResults" ).prepend( div );
 			}
 		});
@@ -94,6 +94,5 @@ $(".tag-item").click(function(){
 	return false;    
 });
 
-
-			</script>
-			</html>
+</script>
+</html>
