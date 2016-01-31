@@ -101,8 +101,7 @@ $(document).ready(function() {
 					var things_results = '<ul>'
 					var result = JSON.parse(JSON.stringify(result))
 					for (var i in result){ 
-						things_results += '<li>' + result[i].title + '</li>';
-						things_results += '<li>' + result[i].imageUrl.substring(2, result[i].imageUrl.length) + '</li>';
+						things_results += '<li><img src="http://'+result[i].imageUrl.substring(2, result[i].imageUrl.length)+'" alt="Activity Picture">' + result[i].title + '</li>';
 					}
 					things_results += '</ul>'
 					$( "#expedia-things" ).append(things_results);
@@ -144,7 +143,7 @@ $(document).ready(function() {
 				var things_results = '<ul>'
 				var result = JSON.parse(JSON.stringify(result))
 				for (var i in result){ 
-					things_results += '<li>' + result[i].title + '</li>'
+					things_results += '<li><img src="http://'+result[i].imageUrl.substring(2, result[i].imageUrl.length)+'" alt="Activity Picture">' + result[i].title + '</li>';
 				}
 				things_results += '</ul>'
 				$( "#expedia-things" ).append(things_results);
