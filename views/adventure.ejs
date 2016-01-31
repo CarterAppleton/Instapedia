@@ -89,6 +89,12 @@ $(document).ready(function() {
 						return;
 					}
 					var package_result = JSON.parse(JSON.stringify(result)).packages
+					if (package_result.length == 0) {
+						package_div = '<div class="package">'
+						package_div += "No packages :("
+						package_div += "</div>"
+						$( "#expedia" ).html(package_div);
+					}
 					var package_div = '<div>'
 					for (var i = 0; i < 1; i++) { //package_result.length; i++) {
 						console.log(package_result[i])
@@ -131,6 +137,12 @@ $(document).ready(function() {
 					return;
 				}
 				var package_result = JSON.parse(JSON.stringify(result)).packages
+				if (package_result.length == 0) {
+					package_div = '<div class="package">'
+					package_div += "No packages :("
+					package_div += "</div>"
+					$( "#expedia" ).html(package_div);
+				}
 				var package_div = '<div>'
 				for (var i = 0; i < 1; i++) { //package_result.length; i++) {
 					console.log(package_result[i])
