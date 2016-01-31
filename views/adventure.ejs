@@ -41,11 +41,14 @@ lang="en">
 
 			</div>
 			<div id="expedia-info" class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="">
-				<div id="expedia"></div>
+				<div id="expedia">
+				</div>
 				<br>
 				<div id="expedia-fast"></div>
 				<br>
-				<div id="expedia-things"></div>
+				<div id="expedia-things">
+					<h2> Things to Do near <%- JSON.parse(ig_data).location.name %></h2>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -79,7 +82,9 @@ $(document).ready(function() {
 						console.log("Error: Flight info is null");
 						return;
 					}
-					$( "#expedia" ).prepend(JSON.stringify(result));
+					var package_result = JSON.parse(JSON.stringify(result))
+					var package_button = '<button type="button" class="btn btn-primary">' + package_result.price + '</button>'
+					$( "#expedia" ).append(package_button);
 				});
 				$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 					if (result == null) {
@@ -93,7 +98,13 @@ $(document).ready(function() {
 						console.log("Error: Flight info is null");
 						return;
 					}
-					$( "#expedia-things" ).prepend(JSON.stringify(result));
+					var things_results = '<ul>'
+					var result = JSON.parse(JSON.stringify(result))
+					for (var i in result){ 
+						things_results += '<li>' + result[i].title + '</li>'
+					}
+					things_results += '</ul>'
+					$( "#expedia-things" ).append(things_results);
 				});
 				return;
 			}
@@ -104,7 +115,12 @@ $(document).ready(function() {
 					console.log("Error: Package info is null");
 					return;
 				}
-				$( "#expedia" ).prepend(JSON.stringify(result));
+				var package_result = JSON.parse(JSON.stringify(result))
+				var start_date = package_result.detailsURL.substring(package_result.detailsURL.indexOf("departDate=L1:")+14, package_result.detailsURL.indexOf("|L2:",package_result.detailsURL.indexOf("departDate=L1:")+14));
+				var end_date = package_result.detailsURL.substring(package_result.detailsURL.indexOf("L2:",package_result.detailsURL.indexOf("departDate=L1:"))+3, package_result.detailsURL.indexOf("&",package_result.detailsURL.indexOf("L2:",package_result.detailsURL.indexOf("departDate=L1:"))));
+
+				var package_button = start_date + ' ---> ' + end_date + ' <button type="button" class="btn btn-primary">' + package_result.price + '</button>'
+				$( "#expedia" ).append(package_button);
 			});
 			$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 				if (result == null) {
@@ -118,7 +134,13 @@ $(document).ready(function() {
 					console.log("Error: nothing to do!");
 					return;
 				}
-				$( "#expedia-things" ).prepend(JSON.stringify(result));
+				var things_results = '<ul>'
+				var result = JSON.parse(JSON.stringify(result))
+				for (var i in result){ 
+					things_results += '<li>' + result[i].title + '</li>'
+				}
+				things_results += '</ul>'
+				$( "#expedia-things" ).append(things_results);
 			});
 			
 			// do not fear the regex but also do not touch it

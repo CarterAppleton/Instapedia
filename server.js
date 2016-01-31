@@ -143,6 +143,7 @@ app.get('/getflightinfo', function(req, res){
 	var placeName = encodeURI(req.query.name)
 
 	eAPI.getPrice(lat, long, placeName, function(result) {
+		console.log(result)
     res.json(result);
   })
 })
@@ -160,7 +161,7 @@ app.get('/getthingstodo', function(req, res){
 	var placeName = encodeURI(req.query.name)
 
 	eAPI.getThingsToDo(placeName, function(result) {
-   res.json(result);
+   	res.json(result);
    })
 })
 
