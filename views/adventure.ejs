@@ -116,12 +116,18 @@ $(document).ready(function() {
 					console.log("Error: Package info is null");
 					return;
 				}
-				var package_result = JSON.parse(JSON.stringify(result))
-				var start_date = package_result.detailsURL.substring(package_result.detailsURL.indexOf("departDate=L1:")+14, package_result.detailsURL.indexOf("|L2:",package_result.detailsURL.indexOf("departDate=L1:")+14));
-				var end_date = package_result.detailsURL.substring(package_result.detailsURL.indexOf("L2:",package_result.detailsURL.indexOf("departDate=L1:"))+3, package_result.detailsURL.indexOf("&",package_result.detailsURL.indexOf("L2:",package_result.detailsURL.indexOf("departDate=L1:"))));
-
-				var package_button = start_date + ' ---> ' + end_date + ' <button type="button" class="btn btn-primary">' + package_result.price + '</button>'
-				$( "#expedia" ).append(package_button);
+				var package_result = JSON.parse(JSON.stringify(result)).packages
+				var package_div = '<div>'
+				for (var i = 0; i < package_result.length; i++) {
+					console.log(package_result[i])
+					var start_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("departDate=L1:")+14, package_result[i].detailsUrl.indexOf("|L2:",package_result[i].detailsUrl.indexOf("departDate=L1:")+14));
+					var end_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))+3, package_result[i].detailsUrl.indexOf("&",package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))));
+					package_div = '<div class="package">'
+					package_div += start_date + ' ---> ' + end_date + '<br>'
+					package_div +='<a href="' + package_result[i].detailsUrl + '"><button type="button" class="btn btn-primary">$' + package_result[i].price + '</button><a/></div>'
+					package_div += '</div>'
+					$( "#expedia" ).append(package_div);
+				}
 			});
 			$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 				if (result == null) {
