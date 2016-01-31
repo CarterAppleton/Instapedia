@@ -8,6 +8,7 @@ body {
 	color: gray;
 	padding: 0px;
 	margin: 0px;
+	min-width:500px;
 	background-color: white;
 }
 
@@ -43,10 +44,10 @@ body {
 
 #description {
 	margin-top:30px;
-font-size:18px;font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-line-height:180%;
-padding:10px;
-text-indent: 20px;
+	font-size:18px;font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	line-height:180%;
+	padding:10px;
+	text-indent: 20px;
 }
 
 #expedia-info {
@@ -63,7 +64,7 @@ padding:10px;
 
 .ip-navbar {
 	width:100%;
-	background-color:#eee;
+	background-color:#F9F2E7;
 }
 
 .ip-filter-drop-down {
@@ -80,15 +81,40 @@ padding:10px;
 }
 
 .tag-item {
-	width:80px;height:40px;padding-top:10px;margin:2px;background-color:#ddd;float:left;text-align:center;top:50%;vertical-align:middle;
+	width:9%;
+	min-width:80px;
+	height:40px;
+	padding-top:10px;
+	margin:2px;
+	background-color:#ddd;
+	float:left;
+	text-align:center;
+	top:50%;
+	vertical-align:middle;
+	color:#333;
+	text-decoration:none;
 }
 
 .tag-item-active {
-	width:80px;height:40px;padding-top:10px;margin:2px;background-color:blue;float:left;text-align:center;top:50%;vertical-align:middle;
+	background-color:#AEE239;
+	border-style: solid;
+	border-top: thick solid #9dd128;
+	border-left: thick solid #9dd128;
+	border-right: thick solid #9dd128;
+	border-bottom: thick solid #9dd128;
+	color:white;
 }
 
 .tag-item:hover {
-	background-color:blue;
+	background-color:#8cc016;
+	border-style: solid;
+	border-top: thick none #9dd128;
+	border-left: thick none #9dd128;
+	border-right: thick none #9dd128;
+	border-bottom: thick solid #9dd128;
+	font-weight:bold;
+	color:white !important;
+	text-decoration:none;
 }
 
 /* Small devices (tablets, 768px and below) */
@@ -97,42 +123,42 @@ padding:10px;
 }
 
 .carousel {	height: 400px; width:100%;
-overflow:hidden; 	background-color:black; z-index: -99;
-} /* keeps this behind all content */
-.carousel .item {
+	overflow:hidden; 	background-color:black; z-index: -99;
+	} /* keeps this behind all content */
+	.carousel .item {
 	
-    width: 100%; height: 400px;
-	background-size: 100% auto;
-	background-repeat: no-repeat;
-	background-position: center;
-    -webkit-transition: opacity 1s;
-    -moz-transition: opacity 1s;
-    -ms-transition: opacity 1s;
-    -o-transition: opacity 1s;
-    transition: opacity 1s;
-	background-color:purple;
-}
-.carousel {
-    background-size: cover;
-    -moz-background-size: cover;
-}
+		width: 100%; height: 400px;
+		background-size: 100% auto;
+		background-repeat: no-repeat;
+		background-position: center;
+		-webkit-transition: opacity 1s;
+		-moz-transition: opacity 1s;
+		-ms-transition: opacity 1s;
+		-o-transition: opacity 1s;
+		transition: opacity 1s;
+		background-color:purple;
+	}
+	.carousel {
+		background-size: cover;
+		-moz-background-size: cover;
+	}
 
-.carousel .active.left {
-    left:0;
-    opacity:0;
-    z-index:2;
-}
+	.carousel .active.left {
+		left:0;
+		opacity:0;
+		z-index:2;
+	}
 
-ul#tags li {
-    display:inline;
-}
+	ul#tags li {
+		display:inline;
+	}
 
-li.tags_link {
-	padding: 1%;
-}
-#instagram {
-	width: 100%;
-}
-#adventure {
+	li.tags_link {
+		padding: 1%;
+	}
+	#instagram {
+		width: 100%;
+	}
+	#adventure {
 
-}
+	}

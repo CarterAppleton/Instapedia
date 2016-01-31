@@ -20,17 +20,17 @@ lang="en">
 			<div id="carousel" class="carousel container slide" style="padding:0px;margin:0px;">
 				<div class="carousel-inner">
 					<div class="active item one" style="    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('imgs/test1.jpg');
-	background-repeat: no-repeat;
-	background-position: center;
-		background-size: 100% auto;"></div>
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 100% auto;"></div>
 					<div class="item two" style="    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('imgs/test2.jpg');
-	background-repeat: no-repeat;
-	background-position: center;
-		background-size: 100% auto;"></div>
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 100% auto;"></div>
 					<div class="item three" style="    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('imgs/test3.jpg');
-	background-repeat: no-repeat;
-	background-position: center;
-		background-size: 100% auto;"></div>
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 100% auto;"></div>
 				</div>
 			</div>
 			<div class="ip-header">	
@@ -41,66 +41,141 @@ lang="en">
 					<div class="row ip-tagline">
 						Explore the world through the eyes of fellow explorers: travel to collect moments, not things.
 					</div>
+					<div class="row" style="margin-top:80px;">
+						<form>
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							</div>
+							<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+								<select class="form-control" id="numPeople">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+								</select>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<div class="input-group date" data-provide="datepicker" >
+									<input type="text" class="form-control" id="leaveDatePicker">
+									<div class="input-group-addon">
+										<span class="glyphicon glyphicon-th"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+								<div class="input-group date" data-provide="datepicker">
+									<input type="text" class="form-control" id="returnDatePicker">
+									<div class="input-group-addon">
+										<span class="glyphicon glyphicon-th"></span>
+									</div>
+								</div>
+							</div>		
+						</form>
+					</div>
+					<div class="row" style="margin-top:5px;">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="color:white;">
+							Travelers
+						</div>
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="color:white;">
+							Departure
+						</div>
+						<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="color:white;">
+							Return
+						</div>		
+					</div>
 				</div>
 			</div>	
 		</div>
 	</div>
 	
-	<div class="container-fluid" style="background-color:#EEE">
+	<div class="container-fluid" style="background-color:#f9f9f9">
 		<div class="container" style="padding:20px;">
-			<div>
+			<div class="row">
 				<% for(var i in tags) { %>
 					<a class="tag-item" id="tag-item-<%- tags[i] %>" style="" href="#tag=<%- tags[i] %>"><%- tags[i] %></a>
-				<% } %>
+					<% } %>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="container-fluid" style="background-color:#EEE">
-		<div class="container" style="padding:20px;">
-			<div id="searchResults" class="row" style="width:100%;text-align:center;">
+		<div class="container-fluid" style="background-color:#EEE">
+			<div class="container" style="padding:20px;">
+				<div id="searchResults" class="row" style="width:100%;text-align:center;">
 
+				</div>
 			</div>
 		</div>
-	</div>
 	
-	<div class="container-fluid" style="background-color:#EEE">
-		<div class="container" style="padding:20px;">
-			<div id="footer" style="height:100px;text-align:center;">
-				Instapedia
+		<div class="container-fluid" style="background-color:#EEE">
+			<div class="container" style="padding:20px;">
+				<div id="footer" style="height:100px;text-align:center;">
+					Instapedia
+				</div>
 			</div>
 		</div>
 	</div>
-
-</body>
+</body>	
 <script>
-$(document).ready(function() {
-	$('.carousel').carousel({interval: 9000});
-});
 
-var selectedTags = {};
-$(".tag-item").click(function(){ 	
-	var tag_name = $(this).text().replace(/ /g,'');
-	if(selectedTags[tag_name] == null) {
-		selectedTags[tag_name] = {};
-		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "blue";
-		$.get( "/search?tag=" + tag_name, function( result ) {
-			if (result == null) {
-				return;
-			}
-			for (i = 0; i < result.length; i++) {
-				div = "<a class='col-xs-12 col-sm-6 col-md-3 col-lg-3 ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"100%\" width=\"100%\"></a>";
-				$( "#searchResults" ).prepend( div );
-			}
-		});
-	} else {
-		$('.ip-location-item-' + tag_name).remove();
-		selectedTags[tag_name] = null;
-		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#DDD";		
+	function goToAdventurePage(id) {
+		var numPeople = $('#numPeople').val();
+		var leaveDate = $('#leaveDatePicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
+		var returnDate = $('#returnDatePicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
+		window.location.href = '/adventure?id=' + id + '&numPeople=' + numPeople + '&leave=' + leaveDate + '&return=' + returnDate;
 	}
 
-	return false;    
+	$(document).ready(function() {
+		$('.carousel').carousel({interval: 9000});
+		$('#leaveDatePicker').datepicker({
+    format: 'yyyy-mm-dd',
+    startDate: '-3d'
 });
+		var future = new Date();
+		future.setDate(future.getDate() + 7);
+		$('#returnDatePicker').datepicker({
+			"setDate": future,
+        	"autoclose": true
+		});
+	
+	});
 
-</script>
-</html>
+	var selectedTags = {};
+	$(".tag-item").click(function(){ 	
+		var tag_name = $(this).text().replace(/ /g,'');
+		if(selectedTags[tag_name] == null) {
+			selectedTags[tag_name] = {};
+			document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#8cc016";
+			document.getElementById("tag-item-"+tag_name).style.borderStyle = "solid";
+			document.getElementById("tag-item-"+tag_name).style.borderTop = "thick none #9dd128";
+			document.getElementById("tag-item-"+tag_name).style.borderLeft = "thick none #9dd128";
+			document.getElementById("tag-item-"+tag_name).style.borderRight = "thick none #9dd128";
+			document.getElementById("tag-item-"+tag_name).style.borderBottom = "thick solid #9dd128";
+			document.getElementById("tag-item-"+tag_name).style.fontWeight = "bold";
+			document.getElementById("tag-item-"+tag_name).style.fontWeight = "bold";
+			document.getElementById("tag-item-"+tag_name).style.color = "white";
+			document.getElementById("tag-item-"+tag_name).style.textDecoration = "none";
+			$.get( "/search?tag=" + tag_name, function( result ) {
+				if (result == null) {
+					return;
+				}
+				for (i = 0; i < result.length; i++) {
+					div = "<a class='col-xs-12 col-sm-6 col-md-3 col-lg-3 ip-location-item ip-location-item-" + tag_name + "'href='#' onclick=\"goToAdventurePage('" + result[i].id + "');\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"100%\" width=\"100%\"></a>";
+					$( "#searchResults" ).prepend( div );
+				}
+			});
+		} else {
+			$('.ip-location-item-' + tag_name).remove();
+			selectedTags[tag_name] = null;
+			document.getElementById("tag-item-"+tag_name).style = '';
+			document.getElementById("tag-item-"+tag_name).style.textDecoration = "none";
+			document.getElementById("tag-item-"+tag_name).style.color = "#333";
+				
+		}
+
+		return false;    
+	});
+
+	</script>
+	</html>

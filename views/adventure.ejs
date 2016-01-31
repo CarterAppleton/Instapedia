@@ -144,7 +144,7 @@ $(document).ready(function() {
 			});
 			
 			// do not fear the regex but also do not touch it
-			$( "#description" ).prepend('<p>' + result.replace(/ *\([^)]*\) */g,'').replace(/(?:\r\n|\r|\n)/g, '</p><p>') + '</p>');
+			$( "#description" ).prepend('<p>' + result.replace(/ *\([^)]*\) */g,' ').replace(/(?:\r\n|\r|\n)/g, '</p><p>') + '</p>');
 		});
 	} 
 	searchWikipedia();
