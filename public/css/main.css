@@ -51,7 +51,12 @@ body {
 }
 
 .ip-location-item {
-	padding:10px;
+	margin-top:3%;
+	display:block;
+}
+
+.ip-location-item:hover {
+	opacity:0.5;
 }
 
 .tag-item {
