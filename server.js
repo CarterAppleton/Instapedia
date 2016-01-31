@@ -157,11 +157,9 @@ app.get('/getjustflightinfo', function(req, res){
 })
 
 app.get('/getthingstodo', function(req, res){
-	var lat = encodeURI(req.query.lat)
-	var long = encodeURI(req.query.long)
 	var placeName = encodeURI(req.query.name)
 
-	eAPI.getFastPrice(lat, long, function(result) {
+	eAPI.getThingsToDo(placeName, function(result) {
    res.json(result);
    })
 })

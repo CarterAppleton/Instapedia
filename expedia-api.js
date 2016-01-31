@@ -10,7 +10,7 @@ var home_lat = 0;
 var home_long = 0;
 
 var debug = false;
-var printResponses = true;
+var printResponses = false;
 
 
 module.exports = {
@@ -18,20 +18,13 @@ module.exports = {
 
 		closestAirport(lat, long, function(destAirport) {
 			getRegion(lat, long, function(regionID) {
-				getThingsToDo(location, dDepartureDate, dReturnDate, function(thingsToDo) {
-					console.log('start getPackageDeal');
-					getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, thingsToDo, function(response) {
-						callback(response);
-						console.log('getPackageDeal done');
-					});
+				console.log('start getPackageDeal');
+				getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, function(response) {
+					callback(response);
+					console.log('getPackageDeal done');
 				});
 			});
 		});
-
-		// getThingsToDo("London", dDepartureDate, dReturnDate, function(thingsToDo) {
-		// 	callback(thingsToDo);
-		// 	print('callback done');
-		// })
 
 		// getCheapestFlightPrice(home_airport, 'LAX', function(response) {
 		// 	callback(response);
@@ -62,12 +55,18 @@ module.exports = {
 				}
 			});
 		});
+	},
+
+	getThingsToDo: function getToDos(placeName, callback) {
+		getThingsToDo(placeName, dDepartureDate, dReturnDate, function(thingsToDo) {
+			callback(thingsToDo);
+		})
 	}
 }
 
 // price, location, title, small image
 
-function getPackageDeal(departureDate, origin, destination, returnDate, regionID, thingsToDo, callback) {
+function getPackageDeal(departureDate, origin, destination, returnDate, regionID, callback) {
 	if (regionID == null) {
 		var jsonResponse = {};
 		jsonResponse.price = '$N/A';
@@ -86,7 +85,6 @@ function getPackageDeal(departureDate, origin, destination, returnDate, regionID
 
 				jsonResponse.price = price;
 				jsonResponse.detailsURL = detailsURL;
-				jsonResponse.thingsToDo = thingsToDo;
 				callback(jsonResponse);
 
 				// print(jsonResponse);
@@ -112,7 +110,7 @@ function getThingsToDo(location, startDate, endDate, callback) {
 				for (var i = 0; i < 5 && i < info.activities.length; i++) {
 					var activity = info.activities[i];
 					thingsToDo.push(activity);
-					print('pushed activity: '+activity);
+					// print('pushed activity: '+activity);
 				}
 
 				callback(thingsToDo);
