@@ -51,7 +51,16 @@ body {
 }
 
 .ip-location-item {
-	padding:10px;
+	margin:2px;
+	
+	padding:2px;
+	background-color:white;
+	display:block;
+	float:left;
+}
+
+.ip-location-item:hover {
+	background-color:gray;
 }
 
 .tag-item {

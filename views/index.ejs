@@ -7,7 +7,7 @@ lang="en">
 <head>
 	
 	<!-- WINDOW TITLE -->
-	<title>Test</title>
+	<title>Instapedia</title>
 	
 	<% include ../views/partials/headPartial %>
 	
@@ -41,17 +41,26 @@ lang="en">
 		<div class="container" style="padding:20px;">
 			<div>
 				<% for(var i in tags) { %>
-						<a class="tag-item" id="tag-item-<%- tags[i] %>" style="" href="#tag=<%- tags[i] %>"><%- tags[i] %></a>
-				<% } %>
+					<a class="tag-item" id="tag-item-<%- tags[i] %>" style="" href="#tag=<%- tags[i] %>"><%- tags[i] %></a>
+					<% } %>
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="container-fluid" style="background-color:#EEE">
 		<div class="container" style="padding:20px;">
-	<div id="searchResults" style="width:100%;text-align:center;">
-		
+			<div id="searchResults" style="width:100%;text-align:center;">
+
+			</div>
+		</div>
 	</div>
+	
+	<div class="container-fluid" style="background-color:#EEE">
+		<div class="container" style="padding:20px;">
+			<div id="footer" style="height:100px;text-align:center;">
+				Instapedia
+			</div>
 		</div>
 	</div>
 
@@ -85,22 +94,6 @@ $(".tag-item").click(function(){
 	return false;    
 });
 
-// var output = ""
-// if(data.length != 0) {
-	// 	// Parses the JSON response and spits it out in human readable text
-	// 	//<img class="" src="//iscale.iheart.com/catalog/live/3401?ops=fit(60%2C60)" srcset="//iscale.iheart.com/catalog/live/3401?ops=fit(120%2C120) 2x" alt="Radio 1045" itemprop="" style="opacity: 1;" data-reactid=".0.1.1.1.0:$Stations.1.$3401.0.$logo">
-	// 	var stations = data
-	// 	output = "<div id='section_title'>Search Results: " + term + "</div><ul class='rig columns-3'>"
-	// 	for(var i=0;i<stations.length;i++){
-		// 		output += "<li class='center'><a href = '/connect?station_id=" + stations[i].id + "&station_name=" + stations[i].name + "'><img id='' src='http://radioedit.iheart.com/service/img/nop()/assets/images/" + stations[i].id + ".png' onerror='imgError(this);'><p id='station_name'>" + stations[i].name + "</p><p id=''>" + stations[i].description + "</p></a></li>"
-		// 	}
-		// }
-		// else {
-			// 	output = "I'm sorry, there are no results for what you searched. Try again?"
-			// }
 
-
-			// output += "</ul>"
-			// $("#results").html(output);
 			</script>
 			</html>
