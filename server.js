@@ -95,15 +95,14 @@ app.get('/search', function(req, res){
 			console.log(result); //for debugging purposes
 			
 			text = '';
-			if (result != undefined) {
-				//for (i = 0; i < result.length; i++) { 
-				//	console.log(result[i])
-			  	//text += "<a href =\"/getflightinfo?lat=" + result[i].location.latitude + "&long=" + result[i].location.longitude + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>       ";
-				//}
-			}
-
 			res.send(result);
 	});
+})
+
+//Call to get to info page for each pic
+app.get('/adventure', function(req, res){
+	var pic_id = encodeURI(req.query.id)
+
 })
 
 // Calls to get stuff back from expedia
