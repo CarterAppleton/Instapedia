@@ -56,6 +56,13 @@ line-height:180%;
 padding:10px;
 }
 
+.package {
+	padding:10px;
+	text-align:center;
+    border-radius: 3px;
+    border: 2px solid green;
+	font-weight:bold;
+}
 
 #description::first-line {
 	font-weight:bold;

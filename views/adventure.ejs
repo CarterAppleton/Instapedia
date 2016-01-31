@@ -117,13 +117,13 @@ $(document).ready(function() {
 				}
 				var package_result = JSON.parse(JSON.stringify(result)).packages
 				var package_div = '<div>'
-				for (var i = 0; i < package_result.length; i++) {
+				for (var i = 0; i < 1; i++) { //package_result.length; i++) {
 					console.log(package_result[i])
 					var start_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("departDate=L1:")+14, package_result[i].detailsUrl.indexOf("|L2:",package_result[i].detailsUrl.indexOf("departDate=L1:")+14));
 					var end_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))+3, package_result[i].detailsUrl.indexOf("&",package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))));
 					package_div = '<div class="package">'
-					package_div += start_date + ' ---> ' + end_date + '<br>'
-					package_div +='<a href="' + package_result[i].detailsUrl + '"><button type="button" class="btn btn-primary">$' + package_result[i].price + '</button><a/></div>'
+					package_div += '<p>Quick Getaway: Best Flight & Hotel!</p>';//start_date + ' ---> ' + end_date + '<br>'
+					package_div +='<a href="' + package_result[i].detailsUrl + '"><button type="button" class="btn btn-primary btn-success">$' + package_result[i].price + '</button><a/></div>'
 					package_div += '</div>'
 					$( "#expedia" ).append(package_div);
 				}
