@@ -101,7 +101,7 @@ $(document).ready(function() {
 			
 			$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %> + "&name=" + possibilities[possiblity], function( result ) {
 				if (result == null) {
-					console.log("Error: Flight info is null");
+					console.log("Error: Package info is null");
 					return;
 				}
 				$( "#expedia" ).prepend(JSON.stringify(result));

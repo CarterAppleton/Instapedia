@@ -26,11 +26,6 @@ module.exports = {
 			});
 		});
 
-		// getCheapestFlightPrice(home_airport, 'LAX', function(response) {
-		// 	callback(response);
-		// 	print('call done');
-		// });
-
 		// getRegion(lat, long, function(response) {
 		// 	callback(response);
 		// });
@@ -64,8 +59,6 @@ module.exports = {
 	}
 }
 
-// price, location, title, small image
-
 function getPackageDeal(departureDate, origin, destination, returnDate, regionID, callback) {
 	if (regionID == null) {
 		var jsonResponse = {};
@@ -79,19 +72,23 @@ function getPackageDeal(departureDate, origin, destination, returnDate, regionID
 		if (!error && response.statusCode == 200) {
 			var info = JSON.parse(body);
 			var jsonResponse = {};
-			try {
-				var detailsURL = info.PackageSearchResultList.PackageSearchResult[0].DetailsUrl;
-				var price = info.PackageSearchResultList.PackageSearchResult[0].PackagePrice.TotalPrice.Value;
+			jsonResponse.packages = [];
+			jsonResponse.originAirport = origin;
+			jsonResponse.destinationAirport = destination;
+			try { 
+				for (var i = 0; i < 5 || i < info.PackageSearchResultList.PackageSearchResult.length; i++) {
+					var activity = info.PackageSearchResultList.PackageSearchResult[i];
+					var activityJSON = {};
+					activityJSON.price = activity.PackagePrice.TotalPrice.Value;
+					activityJSON.detailsUrl = activity.DetailsUrl;
+					jsonResponse.packages.push(activityJSON);
+				}
 
-				jsonResponse.price = price;
-				jsonResponse.detailsURL = detailsURL;
 				callback(jsonResponse);
 
 				// print(jsonResponse);
 			}
 			catch(e) {
-				jsonResponse.price = '$N/A';
-				jsonResponse.detailsURL = null;
 				callback(jsonResponse);
 			}
 		}
@@ -115,7 +112,7 @@ function getThingsToDo(location, startDate, endDate, callback) {
 
 				callback(thingsToDo);
 
-				// print(jsonResponse);
+				// print(thingsToDo);
 			}
 			catch(e) {
 				print('No activities');
@@ -205,6 +202,19 @@ function isMajorAirport(item) {
 		return false;
 	}
 	return true;
+}
+
+function getCheapestFlightPrice_NoPrice(originAirport, destinationAirport, departureDate, returnDate, callback) {
+	var URL = 'http://terminal2.expedia.com/x/mflights/search?departureDate='+departureDate+'&returnDate='+returnDate+'&departureAirport='+originAirport+'&arrivalAirport='+destinationAirport+'&apikey='+API_key;
+	request(URL, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			// print('body: '+JSON.stringify(body));
+			callback(body);
+		}
+		else {
+			print('getCheapestFlightPrice_NoPrice error: '+error);
+		}
+	})
 }
 
 function getCheapestFlightPrice(origin, destination, callback) {
