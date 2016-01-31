@@ -81,11 +81,25 @@ $(document).ready(function() {
 					}
 					$( "#expedia" ).prepend(JSON.stringify(result));
 				});
+				$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+					if (result == null) {
+						console.log("Error: Flight info is null");
+						return;
+					}
+					$( "#expedia" ).prepend(JSON.stringify(result));
+				});
 				return;
 			}
 			console.log(possibilities[possiblity]);
 			
 			$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %> + "&name=" + possibilities[possiblity], function( result ) {
+				if (result == null) {
+					console.log("Error: Flight info is null");
+					return;
+				}
+				$( "#expedia" ).prepend(JSON.stringify(result));
+			});
+			$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 				if (result == null) {
 					console.log("Error: Flight info is null");
 					return;

@@ -147,6 +147,17 @@ app.get('/getflightinfo', function(req, res){
   })
 })
 
+app.get('/getjustflightinfo', function(req, res){
+	var lat = encodeURI(req.query.lat)
+	var long = encodeURI(req.query.long)
+	var placeName = encodeURI(req.query.name)
+
+	// TODO CHANGE TO JUST A FLIGHT NOT THE BUNDLE DEAL
+	// eAPI.getPrice(lat, long, placeName, function(result) {
+   // res.json(result);
+   //})
+})
+
 // Crap we need to get the website approved by insta
 app.get('/privacy', function(req, res){
 	res.render('privacy')
