@@ -17,6 +17,8 @@ lang="en">
 	<div id="expedia"></div>
 	<br>
 	<div id="expedia-fast"></div>
+	<br>
+	<div id="expedia-things"></div>
 
 
 		
@@ -88,6 +90,13 @@ $(document).ready(function() {
 					}
 					$( "#expedia-fast" ).prepend(JSON.stringify(result));
 				});
+				$.get( "/getthingstodo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+					if (result == null) {
+						console.log("Error: Flight info is null");
+						return;
+					}
+					$( "#expedia-things" ).prepend(JSON.stringify(result));
+				});
 				return;
 			}
 			console.log(possibilities[possiblity]);
@@ -105,6 +114,13 @@ $(document).ready(function() {
 					return;
 				}
 				$( "#expedia-fast" ).prepend(JSON.stringify(result));
+			});
+			$.get( "/getthingstodo?name=" + '<%- JSON.parse(ig_data).location.name %>', function( result ) {
+				if (result == null) {
+					console.log("Error: nothing to do!");
+					return;
+				}
+				$( "#expedia-things" ).prepend(JSON.stringify(result));
 			});
 			
 			// do not fear the regex but also do not touch it
