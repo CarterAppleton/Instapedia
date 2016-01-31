@@ -1,7 +1,7 @@
 var express = require('express'),
     morgan  = require('morgan'),
     path = require('path'),
-    http = require('http');
+    https = require('https');
 
 var app = express();
 
@@ -107,6 +107,33 @@ app.get('/adventure', function(req, res){
 		res.render('adventure', {ig_data: JSON.stringify(media)})
 	});
 
+})
+
+app.get('/wikipedia', function(req, res){
+	var searchterm = encodeURI(req.query.searchterm)
+  var search_options = {
+    hostname: 'en.wikipedia.org',
+  	port: 443,
+    path: '/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=' + searchterm,
+    method: 'GET'
+  }
+
+  https.request(search_options, function(response){
+    var str = '';
+    //another chunk of data has been recieved, so append it to `str`
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    //the whole response has been recieved, so we just print it out here
+    response.on('end', function () {
+      var result = JSON.parse(str).query.pages
+      //only loop once
+      for (var key in result) {
+			  res.send(result[key].extract);
+			}
+    });
+  }).end();
 })
 
 // Calls to get stuff back from expedia

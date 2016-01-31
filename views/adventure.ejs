@@ -98,5 +98,18 @@ lang="en">
 	});
 
 
+	$(document).ready(function() {
+			$.get( "/wikipedia?searchterm=" + '<%- JSON.parse(ig_data).location.name %>' , function( result ) {
+			if (result == null) {
+				console.log("ASDasdasdasd")
+				return;
+			}
+			console.log(result)
+			$( "#description" ).prepend(result);
+		});
+	});
+
+
+
 </script>
 </html>
