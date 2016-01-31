@@ -123,7 +123,10 @@ lang="en">
 		var numPeople = $('#numPeople').val();
 		var leaveDate = $('#leaveDatePicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
 		var returnDate = $('#returnDatePicker').datepicker({ dateFormat: 'yyyy-mm-dd' }).val();
-		window.location.href = '/adventure?id=' + id + '&numPeople=' + numPeople + '&leave=' + leaveDate + '&return=' + returnDate;
+		window.open(
+	  '/adventure?id=' + id + '&numPeople=' + numPeople + '&leave=' + leaveDate + '&return=' + returnDate,
+	  '_blank' // <- This is what makes it open in a new window.
+		);
 	}
 
 	$(document).ready(function() {

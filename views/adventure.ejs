@@ -13,28 +13,30 @@ lang="en">
 	
 </head>
 <body>		
-	<div class="container-fluid" style="padding:0px;margin:0px;">
-		<div class="ip-header-container" style="padding:0px;margin:0px;
+	<a href='<%- JSON.parse(ig_data).link %>' target="_blank" style='text-decoration: none;'>
+		<div class="container-fluid" style="padding:0px;margin:0px;">
+				<div class="ip-header-container" style="padding:0px;margin:0px;
 
-		background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%- JSON.parse(ig_data).images.standard_resolution.url %>');
-		background-repeat: no-repeat;
-		background-position: center;
-		background-size: 100% auto;
-		">
-		<div class="back" style="padding-top:180px;font-size:50px;text-align:center;text-shadow: 0px 0px 10px rgba(0,0,0,0.85);">
-			<div class="row ip-title">
-				<%- JSON.parse(ig_data).location.name %>
-			</div>
-			<div class="row ip-tagline">
-				<% var tags = JSON.parse(ig_data).tags; %>
-				<% for(var i in tags) {  %>
-					#<%-tags[i]  %>
-					<% } %>
+				background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%- JSON.parse(ig_data).images.standard_resolution.url %>');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 100% auto;
+				">
+			<div class="back" style="padding-top:180px;font-size:50px;text-align:center;text-shadow: 0px 0px 10px rgba(0,0,0,0.85);">
+				<div class="row ip-title">
+					<%- JSON.parse(ig_data).location.name %>
+				</div>
+				<div class="row ip-tagline">
+					<% var tags = JSON.parse(ig_data).tags; %>
+					<% for(var i in tags) {  %>
+						#<%-tags[i]  %>
+						<% } %>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	
+	</a>
+
 	<div class="container-fluid" style="padding:0px;margin:0px;">
 		<div class="container">
 			<div id="description" class="col-xs-12 col-sm-6 col-md-8 col-lg-8" style="">
