@@ -75,7 +75,7 @@ app.get('/home', function(req, res){
 			}
 			tags_html += "</ul>"
 
-			text = ''
+			text = '';
 			// if (result != undefined) {
 			// 	for (i = 0; i < result.length; i++) { 
 			// 		console.log(result[i])
@@ -83,7 +83,7 @@ app.get('/home', function(req, res){
 			// 	}
 			// }
 
-			res.render('index', {data: text, tags: tags_html})
+			res.render('index', {data: text, tags: tags})
 	});
 });
 
@@ -95,14 +95,7 @@ app.get('/search', function(req, res){
 			console.log(result); //for debugging purposes
 			
 			text = '';
-			if (result != undefined) {
-				for (i = 0; i < result.length; i++) { 
-					console.log(result[i])
-			  	text += "<a href =\"/adventure?id=" + result[i].id + "\"><img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>       ";
-				}
-			}
-
-			res.send(text);
+			res.send(result);
 	});
 })
 
