@@ -42,6 +42,7 @@ lang="en">
 			</div>
 			<div id="expedia-info" class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="">
 				<div id="expedia">
+					<img src="imgs/airplane_loading_cropped.gif">
 				</div>
 				<br>
 				<div id="expedia-fast"></div>
@@ -84,7 +85,7 @@ $(document).ready(function() {
 					}
 					var package_result = JSON.parse(JSON.stringify(result))
 					var package_button = '<button type="button" class="btn btn-primary">' + package_result.price + '</button>'
-					$( "#expedia" ).append(package_button);
+					$( "#expedia" ).html(package_button);
 				});
 				$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 					if (result == null) {
@@ -125,7 +126,7 @@ $(document).ready(function() {
 					package_div += '<p>Quick Getaway: Best Flight & Hotel!</p>';//start_date + ' ---> ' + end_date + '<br>'
 					package_div +='<a href="' + package_result[i].detailsUrl + '"><button type="button" class="btn btn-primary btn-success">$' + package_result[i].price + '</button><a/></div>'
 					package_div += '</div>'
-					$( "#expedia" ).append(package_div);
+					$( "#expedia" ).html(package_div);
 				}
 			});
 			$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
