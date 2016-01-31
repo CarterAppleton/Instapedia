@@ -68,6 +68,13 @@ module.exports = {
 // price, location, title, small image
 
 function getPackageDeal(departureDate, origin, destination, returnDate, regionID, thingsToDo, callback) {
+	if (regionID == null) {
+		var jsonResponse = {};
+		jsonResponse.price = '$N/A';
+		jsonResponse.detailsURL = null;
+		callback(jsonResponse);
+	}
+
 	var URL = 'http://terminal2.expedia.com/x/packages?adults=1&departureDate='+departureDate+'&originAirport='+origin+'&destinationAirport='+destination+'&returnDate='+returnDate+'&regionid='+regionID+'&limit=5&apikey='+API_key;
 	request(URL, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -102,7 +109,7 @@ function getThingsToDo(location, startDate, endDate, callback) {
 			try {
 				// print(info.activities[0]);
 
-				for (var i = 0; i < 5; i++) {
+				for (var i = 0; i < 5 && i < info.activities.length; i++) {
 					var activity = info.activities[i];
 					thingsToDo.push(activity);
 					print('pushed activity: '+activity);
@@ -129,10 +136,16 @@ function getRegion(lat, long, callback) {
 				callback(JSON.parse(body));
 			}
 			
-			var info = JSON.parse(body);
-			print('regionID: '+info[0].id);
-			if (!debug) {
-				callback(info[0].id);
+			try {
+				var info = JSON.parse(body);
+				print('regionID: '+info[0].id);
+				if (!debug) {
+					callback(info[0].id);
+				}
+			}
+			catch(e) {
+				print('no region? '+body);
+				callback(null);
 			}
 		}
 		else {
