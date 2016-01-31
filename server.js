@@ -140,6 +140,7 @@ app.get('/wikipedia', function(req, res){
 app.get('/getflightinfo', function(req, res){
 	var lat = encodeURI(req.query.lat)
 	var long = encodeURI(req.query.long)
+	var placeName = encodeURI(req.query.name)
 
 	eAPI.getPrice(lat, long, function(result) {
     res.json(result);

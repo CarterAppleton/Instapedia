@@ -59,13 +59,7 @@ lang="en">
 <script>
 
 $(document).ready(function() {
-	$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
-		if (result == null) {
-			console.log("Error: Flight info is null");
-			return;
-		}
-		$( "#expedia" ).prepend(JSON.stringify(result));
-	});
+
 });
 
 
@@ -74,17 +68,31 @@ $(document).ready(function() {
 	var loc = '<%- JSON.parse(ig_data).location.name %>';
 	var possibilities = loc.split(/[,-]+/);
 	var possiblity = 0;
-	//var s = loc.split(/[,-]+/)[0];
-	//possibilities[possiblity]
 	function searchWikipedia() {
 		$.get( "/wikipedia?searchterm=" + possibilities[possiblity] , function( result ) {
 			console.log("searched: " + possibilities[possiblity]);
 			if (result == null || result == "" || result.indexOf("may refer to:\n") > -1 || result.indexOf("is the name of several places in the world including") > -1) {
 				possiblity++;
-				if(possiblity < possibilities.length) { searchWikipedia() };
+				if(possiblity < possibilities.length) { searchWikipedia(); return; };
+				$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
+					if (result == null) {
+						console.log("Error: Flight info is null");
+						return;
+					}
+					$( "#expedia" ).prepend(JSON.stringify(result));
+				});
 				return;
 			}
 			console.log(possibilities[possiblity]);
+			
+			$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %> + "&name=" + possibilities[possiblity], function( result ) {
+				if (result == null) {
+					console.log("Error: Flight info is null");
+					return;
+				}
+				$( "#expedia" ).prepend(JSON.stringify(result));
+			});
+			
 			// do not fear the regex but also do not touch it
 			$( "#description" ).prepend('<p>' + result.replace(/ *\([^)]*\) */g,'').replace(/(?:\r\n|\r|\n)/g, '</p><p>') + '</p>');
 		});
