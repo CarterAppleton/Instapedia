@@ -42,14 +42,14 @@ lang="en">
 			<div id="description" class="col-xs-12 col-sm-6 col-md-8 col-lg-8" style="">
 
 			</div>
-			<div id="expedia-info" class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="">
+			<div id="expedia-info" class="col-xs-12 col-sm-6 col-md-4 col-lg-4" style="overflow:hidden;">
 				<div id="expedia">
 				</div>
 				<br>
 				<div id="expedia-fast"></div>
 				<br>
 				<div id="expedia-things">
-					<h2> Things to Do near <%- JSON.parse(ig_data).location.name %></h2>
+					<h3 style="text-align:center;"> Nearby Activities</h3>
 				</div>
 			</div>
 		</div>
@@ -84,9 +84,18 @@ $(document).ready(function() {
 						console.log("Error: Flight info is null");
 						return;
 					}
-					var package_result = JSON.parse(JSON.stringify(result))
-					var package_button = '<button type="button" class="btn btn-primary">' + package_result.price + '</button>'
-					$( "#expedia" ).append(package_button);
+					var package_result = JSON.parse(JSON.stringify(result)).packages
+					var package_div = '<div>'
+					for (var i = 0; i < 1; i++) { //package_result.length; i++) {
+						console.log(package_result[i])
+						var start_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("departDate=L1:")+14, package_result[i].detailsUrl.indexOf("|L2:",package_result[i].detailsUrl.indexOf("departDate=L1:")+14));
+						var end_date = package_result[i].detailsUrl.substring(package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))+3, package_result[i].detailsUrl.indexOf("&",package_result[i].detailsUrl.indexOf("L2:",package_result[i].detailsUrl.indexOf("departDate=L1:"))));
+						package_div = '<div class="package">'
+						package_div += '<p>Quick Getaway: Best Flight & Hotel!</p>';//start_date + ' ---> ' + end_date + '<br>'
+						package_div +='<a href="' + package_result[i].detailsUrl + '"><button type="button" class="btn btn-primary btn-success">$' + package_result[i].price + '</button><a/></div>'
+						package_div += '</div>'
+						$( "#expedia" ).append(package_div);
+					}
 				});
 				$.get( "/getjustflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 					if (result == null) {
@@ -135,19 +144,23 @@ $(document).ready(function() {
 					console.log("Error: Flight info is null");
 					return;
 				}
-				$( "#expedia-fast" ).prepend(JSON.stringify(result));
+				package_div = '<div class="package">'
+				package_div += '<p>Just a Flight:</p>';//start_date + ' ---> ' + end_date + '<br>'
+				package_div +='<a href="' + '"><button type="button" class="btn btn-primary btn-success">' + JSON.stringify(result).replace(/\"/g, "") + '</button><a/></div>'
+				package_div += '</div>'
+				$( "#expedia-fast" ).append(package_div);
 			});
 			$.get( "/getthingstodo?name=" + '<%- JSON.parse(ig_data).location.name %>', function( result ) {
 				if (result == null) {
 					console.log("Error: nothing to do!");
 					return;
 				}
-				var things_results = '<ul>'
+				var things_results = '<div>'
 				var result = JSON.parse(JSON.stringify(result))
 				for (var i in result){ 
-					things_results += '<li><img src="http://'+result[i].imageUrl.substring(2, result[i].imageUrl.length)+'" alt="Activity Picture">' + result[i].title + '</li>';
+					things_results += '<p style="text-align:center;font-weight:bold;line-height:120%;padding:10px;"><img src="http://'+result[i].imageUrl.substring(2, result[i].imageUrl.length)+'" alt="Activity Picture" width="100%" style="width=100%;border-radius:3px;overflow:hidden;">' + result[i].title + '</p>';
 				}
-				things_results += '</ul>'
+				things_results += '</div>'
 				$( "#expedia-things" ).append(things_results);
 			});
 			
