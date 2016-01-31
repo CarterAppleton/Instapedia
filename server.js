@@ -94,7 +94,7 @@ app.get('/search', function(req, res){
 	ig.tag_media_recent(tag, function(err, result, pagination, remaining, limit) {
 			console.log(result); //for debugging purposes
 			
-			text = ''
+			text = '';
 			if (result != undefined) {
 				for (i = 0; i < result.length; i++) { 
 					console.log(result[i])
@@ -102,13 +102,17 @@ app.get('/search', function(req, res){
 				}
 			}
 
-			res.send(text)
+			res.send(text);
 	});
 })
 
 //Call to get to info page for each pic
 app.get('/adventure', function(req, res){
 	var pic_id = encodeURI(req.query.id)
+	ig.media(pic_id, function(err, media, remaining, limit) {
+		console.log(media);
+		res.render('adventure', {ig_data: JSON.stringify(media)})
+	});
 
 })
 
