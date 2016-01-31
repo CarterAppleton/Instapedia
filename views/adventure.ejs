@@ -112,7 +112,11 @@ $(document).ready(function() {
 						console.log("Error: Flight info is null");
 						return;
 					}
-					$( "#expedia-fast" ).prepend(JSON.stringify(result));
+					package_div = '<div class="package">'
+					package_div += '<p>Just a Flight:</p>';//start_date + ' ---> ' + end_date + '<br>'
+					package_div +='<a href="' + '"><button type="button" class="btn btn-primary btn-success">' + JSON.stringify(result).replace(/\"/g, "") + '</button><a/></div>'
+					package_div += '</div>'
+					$( "#expedia-fast" ).append(package_div);
 				});
 				$.get( "/getthingstodo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 					if (result == null) {
