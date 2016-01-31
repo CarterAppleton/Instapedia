@@ -89,11 +89,10 @@ lang="en">
 	$(document).ready(function() {
 		$.get( "/getflightinfo?lat=" + <%- JSON.parse(ig_data).location.latitude %> + "&long=" + <%- JSON.parse(ig_data).location.longitude %>, function( result ) {
 			if (result == null) {
-				console.log("ASDasdasdasd")
+				console.log("Error: Flight info is null");
 				return;
 			}
-			console.log(result)
-			$( "#expedia" ).prepend(result);
+			$( "#expedia" ).prepend(JSON.stringify(result));
 		});
 	});
 

@@ -15,22 +15,30 @@ var printResponses = true;
 
 module.exports = {
 	getPrice: function getPrice(lat, long, callback) {
+
 		closestAirport(lat, long, function(destAirport) {
 			getRegion(lat, long, function(regionID) {
 				getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, function(response) {
 					callback(response);
+					print('callback done');
 				});
 			});
 		});
+
 		// getCheapestFlightPrice(home_airport, 'LAX', function(response) {
 		// 	callback(response);
+		// 	print('call done');
 		// });
+
 		// getRegion(lat, long, function(response) {
 		// 	callback(response);
 		// });
+
 		// getPackageDeal('2016-02-12', home_airport, 'CDG', '2016-02-15', 8068, function(response) {
 		// 	callback(response);
 		// });
+
+		print('done');
 	}
 }
 
@@ -43,10 +51,16 @@ function getPackageDeal(departureDate, origin, destination, returnDate, regionID
 				var detailsURL = info.PackageSearchResultList.PackageSearchResult[0].DetailsUrl;
 				var price = info.PackageSearchResultList.PackageSearchResult[0].PackagePrice.TotalPrice.Value;
 
-				callback('$'+price+': '+detailsURL);
+				var jsonResponse = {};
+				jsonResponse.price = price;
+				jsonResponse.detailsURL = detailsURL;
+				callback(jsonResponse);
+
+				print(jsonResponse);
 			}
 			catch(e) {
-				callback(JSON.parse(body));
+				print('nothing here');
+				callback("$N/A");
 			}
 		}
 	})
@@ -164,17 +178,18 @@ function getCheapestFlightPrice(origin, destination, callback) {
 						"MaxCount": 5
 					},
 					"FareCalendar": {
-					"StartDate": "2016-02-08T19:33:39.363-08:00"
+					"StartDate": "2016-02-12T19:33:39.363-08:00"
 					}
 				}
 	};
 
 	request(options, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
-			callback(JSON.parse(body));
+			print('body: '+JSON.stringify(body));
+			callback(JSON.stringify(body));
 		}
 		else {
-			print(error);
+			print('getCheapestFlightPrice error: '+error);
 		}
 	});
 }

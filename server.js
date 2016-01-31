@@ -89,10 +89,10 @@ app.get('/home', function(req, res){
 
 // Calls to get stuff back from expedia
 app.get('/search', function(req, res){
-	console.log(req.query)
+	// console.log(req.query)
 	var tag = encodeURI(req.query.tag)
 	ig.tag_media_recent(tag, function(err, result, pagination, remaining, limit) {
-			console.log(result); //for debugging purposes
+			// console.log(result); //for debugging purposes
 			
 			text = '';
 			res.send(result);
