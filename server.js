@@ -55,13 +55,13 @@ exports.handleauth_local = function(req, res) {
 
 // TODO: flip these get calls
 app.get('/authorize', exports.authorize_user);
-app.get('/authorize_local', exports.authorize_user_local);
+app.get('/', exports.authorize_user_local);
 // This is your redirect URI 
 app.get('/handleauth', exports.handleauth);
 app.get('/handleauth_local', exports.handleauth_local);
 
-app.get('/', function(req, res){
-	exports.authorize_user_local
+app.get('/home', function(req, res){
+
 	// used for searching
 	var tags = ["hike", "city", "europe", "history", "mountain", "beach", "sun", "sea", "family", "skiing"] 
 
