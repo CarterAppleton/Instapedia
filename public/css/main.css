@@ -49,6 +49,13 @@ padding:10px;
 text-indent: 20px;
 }
 
+#expedia-info {
+	margin-top:30px;
+line-height:180%;
+padding:10px;
+}
+
+
 #description::first-line {
 	font-weight:bold;
 	font-size:22px;
