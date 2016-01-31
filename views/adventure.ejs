@@ -14,9 +14,9 @@ lang="en">
 </head>
 <body>
 	
-	<div id="expedia">
-		
-	</div>
+	<div id="expedia"></div>
+	<br>
+	<div id="expedia-fast"></div>
 
 
 		
@@ -86,7 +86,7 @@ $(document).ready(function() {
 						console.log("Error: Flight info is null");
 						return;
 					}
-					$( "#expedia" ).prepend(JSON.stringify(result));
+					$( "#expedia-fast" ).prepend(JSON.stringify(result));
 				});
 				return;
 			}
@@ -104,7 +104,7 @@ $(document).ready(function() {
 					console.log("Error: Flight info is null");
 					return;
 				}
-				$( "#expedia" ).prepend(JSON.stringify(result));
+				$( "#expedia-fast" ).prepend(JSON.stringify(result));
 			});
 			
 			// do not fear the regex but also do not touch it

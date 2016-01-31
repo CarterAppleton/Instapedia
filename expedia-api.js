@@ -10,7 +10,7 @@ var home_lat = 0;
 var home_long = 0;
 
 var debug = false;
-var printResponses = false;
+var printResponses = true;
 
 
 module.exports = {
@@ -47,6 +47,21 @@ module.exports = {
 		// });
 
 		print('done');
+	},
+
+	getFastPrice: function getFastPrice(lat, long, callback) {
+		closestAirport(lat, long, function(destAirport) {
+			getCheapestFlightPrice(home_airport, destAirport, function(flights) {
+				try {
+					var cost = flights.FlightListings.AirOfferSummary[0].FlightPriceSummary.TotalPrice;
+					callback('$'+(cost*2));
+					// callback(flights);
+				}
+				catch(e) {
+					callback('$N/A');
+				}
+			});
+		});
 	}
 }
 
@@ -85,12 +100,12 @@ function getThingsToDo(location, startDate, endDate, callback) {
 			var info = JSON.parse(body);
 			var thingsToDo = [];
 			try {
-				print(info.activities[0]);
+				// print(info.activities[0]);
 
 				for (var i = 0; i < 5; i++) {
 					var activity = info.activities[i];
 					thingsToDo.push(activity);
-					print('pushed: '+activity);
+					print('pushed activity: '+activity);
 				}
 
 				callback(thingsToDo);
@@ -224,8 +239,8 @@ function getCheapestFlightPrice(origin, destination, callback) {
 
 	request(options, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
-			print('body: '+JSON.stringify(body));
-			callback(JSON.stringify(body));
+			// print('body: '+JSON.stringify(body));
+			callback(body);
 		}
 		else {
 			print('getCheapestFlightPrice error: '+error);
