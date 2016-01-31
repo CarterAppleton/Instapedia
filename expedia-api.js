@@ -10,20 +10,28 @@ var home_lat = 0;
 var home_long = 0;
 
 var debug = false;
-var printResponses = true;
+var printResponses = false;
 
 
 module.exports = {
-	getPrice: function getPrice(lat, long, callback) {
+	getPrice: function getPrice(lat, long, location, callback) {
 
 		closestAirport(lat, long, function(destAirport) {
 			getRegion(lat, long, function(regionID) {
-				getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, function(response) {
-					callback(response);
-					print('callback done');
+				getThingsToDo(location, dDepartureDate, dReturnDate, function(thingsToDo) {
+					console.log('start getPackageDeal');
+					getPackageDeal(dDepartureDate, home_airport, destAirport, dReturnDate, regionID, thingsToDo, function(response) {
+						callback(response);
+						console.log('getPackageDeal done');
+					});
 				});
 			});
 		});
+
+		// getThingsToDo("London", dDepartureDate, dReturnDate, function(thingsToDo) {
+		// 	callback(thingsToDo);
+		// 	print('callback done');
+		// })
 
 		// getCheapestFlightPrice(home_airport, 'LAX', function(response) {
 		// 	callback(response);
@@ -42,25 +50,56 @@ module.exports = {
 	}
 }
 
-function getPackageDeal(departureDate, origin, destination, returnDate, regionID, callback) {
+// price, location, title, small image
+
+function getPackageDeal(departureDate, origin, destination, returnDate, regionID, thingsToDo, callback) {
 	var URL = 'http://terminal2.expedia.com/x/packages?adults=1&departureDate='+departureDate+'&originAirport='+origin+'&destinationAirport='+destination+'&returnDate='+returnDate+'&regionid='+regionID+'&limit=5&apikey='+API_key;
 	request(URL, function(error, response, body) {
 		if (!error && response.statusCode == 200) {
 			var info = JSON.parse(body);
+			var jsonResponse = {};
 			try {
 				var detailsURL = info.PackageSearchResultList.PackageSearchResult[0].DetailsUrl;
 				var price = info.PackageSearchResultList.PackageSearchResult[0].PackagePrice.TotalPrice.Value;
 
-				var jsonResponse = {};
 				jsonResponse.price = price;
 				jsonResponse.detailsURL = detailsURL;
+				jsonResponse.thingsToDo = thingsToDo;
 				callback(jsonResponse);
 
-				print(jsonResponse);
+				// print(jsonResponse);
 			}
 			catch(e) {
-				print('nothing here');
-				callback("$N/A");
+				jsonResponse.price = '$N/A';
+				jsonResponse.detailsURL = null;
+				callback(jsonResponse);
+			}
+		}
+	})
+}
+
+function getThingsToDo(location, startDate, endDate, callback) {
+	var URL = 'http://terminal2.expedia.com:80/x/activities/search?location='+location+'&startDate='+startDate+'&endDate='+endDate+'&apikey='+API_key;
+	request(URL, function(error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var info = JSON.parse(body);
+			var thingsToDo = [];
+			try {
+				print(info.activities[0]);
+
+				for (var i = 0; i < 5; i++) {
+					var activity = info.activities[i];
+					thingsToDo.push(activity);
+					print('pushed: '+activity);
+				}
+
+				callback(thingsToDo);
+
+				// print(jsonResponse);
+			}
+			catch(e) {
+				print('No activities');
+				callback(thingsToDo);
 			}
 		}
 	})
@@ -76,7 +115,7 @@ function getRegion(lat, long, callback) {
 			}
 			
 			var info = JSON.parse(body);
-
+			print('regionID: '+info[0].id);
 			if (!debug) {
 				callback(info[0].id);
 			}
@@ -107,7 +146,7 @@ function closestAirport(lat, long, callback) {
 			  		if(item.tags.hasOwnProperty('iata')) {
 			  			if(item.tags.iata.hasOwnProperty('airportCode')) {
 			  				if (item.tags.iata.airportCode.hasOwnProperty('value')) {
-			  					print(item.tags.iata.airportCode.value);
+			  					print('airport code: '+item.tags.iata.airportCode.value);
 			  					closest = item.tags.iata.airportCode.value;
 			  					break;
 			  				}
@@ -136,7 +175,7 @@ function isMajorAirport(item) {
 		}
 	}
 	catch(e) {
-		print('minor airport');
+		// print('minor airport');
 		return false;
 	}
 	return true;
@@ -195,5 +234,6 @@ function getCheapestFlightPrice(origin, destination, callback) {
 }
 
 function print(stuff) {
-	console.log(stuff);
+	if (printResponses)
+		console.log(stuff);
 }
