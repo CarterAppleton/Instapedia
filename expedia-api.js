@@ -42,7 +42,7 @@ module.exports = {
 			getCheapestFlightPrice(home_airport, destAirport, function(flights) {
 				try {
 					var cost = flights.FlightListings.AirOfferSummary[0].FlightPriceSummary.TotalPrice;
-					callback('$'+(cost*1.5));
+					callback('$'+(cost));
 					// callback(flights);
 				}
 				catch(e) {
