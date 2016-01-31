@@ -7,7 +7,7 @@ lang="en">
 <head>
 	
 	<!-- WINDOW TITLE -->
-	<title>Test</title>
+	<title>Instapedia</title>
 	
 	<% include ../views/partials/headPartial %>
 	
@@ -41,7 +41,7 @@ lang="en">
 		<div class="container" style="padding:20px;">
 			<div>
 				<% for(var i in tags) { %>
-						<a class="tag-item" id="tag-item-<%- tags[i] %>" style="" href="#tag=<%- tags[i] %>"><%- tags[i] %></a>
+					<a class="tag-item" id="tag-item-<%- tags[i] %>" style="" href="#tag=<%- tags[i] %>"><%- tags[i] %></a>
 				<% } %>
 			</div>
 		</div>
@@ -49,40 +49,49 @@ lang="en">
 
 	<div class="container-fluid" style="background-color:#EEE">
 		<div class="container" style="padding:20px;">
-	<div id="searchResults" style="width:100%;text-align:center;">
-		
+			<div id="searchResults" style="width:100%;text-align:center;">
+
+			</div>
+		</div>
 	</div>
+	
+	<div class="container-fluid" style="background-color:#EEE">
+		<div class="container" style="padding:20px;">
+			<div id="footer" style="height:100px;text-align:center;">
+				Instapedia
+			</div>
 		</div>
 	</div>
 
 </body>
 <script>
-	$(document).ready(function() {
-		$('.carousel').carousel({interval: 9000});
-	});
+$(document).ready(function() {
+	$('.carousel').carousel({interval: 9000});
+});
 
-	var selectedTags = {};
-	$(".tag-item").click(function(){ 	
-		var tag_name = $(this).text().replace(/ /g,'');
-		if(selectedTags[tag_name] == null) {
-			selectedTags[tag_name] = {};
-			document.getElementById("tag-item-"+tag_name).style.backgroundColor = "blue";
-			$.get( "/search?tag=" + tag_name, function( result ) {
-				if (result == null) {
-					return;
-				}
-				for (i = 0; i < result.length; i++) {
-					div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
-					$( "#searchResults" ).prepend( div );
-				}
-			});
-		} else {
-			$('.ip-location-item-' + tag_name).remove();
-			selectedTags[tag_name] = null;
-			document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#DDD";		
-		}
+var selectedTags = {};
+$(".tag-item").click(function(){ 	
+	var tag_name = $(this).text().replace(/ /g,'');
+	if(selectedTags[tag_name] == null) {
+		selectedTags[tag_name] = {};
+		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "blue";
+		$.get( "/search?tag=" + tag_name, function( result ) {
+			if (result == null) {
+				return;
+			}
+			for (i = 0; i < result.length; i++) {
+				div = "<a class='ip-location-item ip-location-item-" + tag_name + "' href=\"/adventure?id=" + result[i].id + "\"> <img src=\"" + result[i].images.standard_resolution.url + "\" height=\"200\" width=\"200\"></a>";
+				$( "#searchResults" ).prepend( div );
+			}
+		});
+	} else {
+		$('.ip-location-item-' + tag_name).remove();
+		selectedTags[tag_name] = null;
+		document.getElementById("tag-item-"+tag_name).style.backgroundColor = "#DDD";		
+	}
 
-		return false;    
-	});
+	return false;    
+});
+
 </script>
 </html>
