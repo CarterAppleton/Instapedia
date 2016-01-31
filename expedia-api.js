@@ -150,7 +150,7 @@ function getRegion(lat, long, callback) {
 }
 
 function closestAirport(lat, long, callback) {
-	request('http://terminal2.expedia.com/x/geo/features?within=100km&lat='+lat+'&lng='+long+'&type=airport&verbose=3&apikey='+API_key, function (error, response, body) {
+	request('http://terminal2.expedia.com/x/geo/features?within=500km&lat='+lat+'&lng='+long+'&type=airport&verbose=3&apikey='+API_key, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 	  		var info = JSON.parse(body);
 	  		
